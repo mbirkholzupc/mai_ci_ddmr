@@ -67,7 +67,7 @@ def randomFilter(image):
     return: image with one of this filters
     [equalize_adapthist, equalize_hist, adjust_log, adjust_sigmoid, randomGamma, randomGaussian, randomIntensity]
     '''
-    Filters = [equalize_adapthist, equalize_hist, adjust_log, adjust_sigmoid, randomGamma, randomGaussian, randomIntensity, flipUpsideDown]
+    Filters = [adjust_log, randomGamma, randomGaussian, flipUpsideDown]
     filt = random.choice(Filters)
     return filt(image)
 
@@ -86,12 +86,12 @@ def randomAffine(image):
     input: normalized image
     return: image with random affine
     '''
-    tform = AffineTransform(scale=(randomRange(0.75, 1.3), randomRange(0.75, 1.3)),
-                            rotation=randomRange(-0.25, 0.25),
-                            shear=randomRange(-0.2, 0.2),
-                            translation=(randomRange(-image.shape[0]//10, image.shape[0]//10), 
-                                         randomRange(-image.shape[1]//10, image.shape[1]//10)))
-    return warp(image, tform.inverse, mode='reflect')
+    tform = AffineTransform(scale=(randomRange(1, 1.4), randomRange(1, 1.4)),
+                            rotation=randomRange(-0.1, 0.1),
+                            shear=randomRange(-0.1, 0.1),
+                            translation=(randomRange(-image.shape[0]//5, image.shape[0]//5), 
+                                         randomRange(-image.shape[1]//5, image.shape[1]//5)))
+    return warp(image, tform.inverse, mode='symmetric')
 
 # Generate random perspective wrapper
 def randomPerspective(image):
@@ -111,7 +111,7 @@ def randomPerspective(image):
     return warp(image, perspective_transformation, output_shape=image.shape[:2])
 
 # Data augmentation from different approaches
-def Augmentation(image, Changes=[randomAffine, randomFilter, randomNoise]):
+def Augmentation(image, Changes=[randomAffine, randomFilter]):
     '''
     [randomAffine, randomPerspective, randomFilter, randomNoise, randomCrop]
     input: normalized image
