@@ -1,0 +1,9 @@
+# Python stuff
+__pycache__/*
+
+# Intermediate output directory
+out/*
+
+# vim temp files
+*.swp
+~*
