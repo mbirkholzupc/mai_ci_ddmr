@@ -1,9 +1,9 @@
 from utils.config_file import config_file
+from preprocess import preprocess_main
+from train import train_main
+from test_ci import test_main
 
 def main_ci():
-    from preprocess import preprocess_main
-    from train import train_main
-    from test import test_main
 
     print('Reading config file: \'config.txt\'')
     cfg = config_file('config.txt')
