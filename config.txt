@@ -1,0 +1,14 @@
+# Config file
+# Technically, comments can be any line that doesn't start with a keyword, but let's
+# use the # to keep things consistent with python
+indatadir=./data
+outdatadir=./out
+
+# model may be one of:
+#  - transfer
+#  - scratch
+model=transfer
+
+# augment may be either true or false
+augment=false
+
