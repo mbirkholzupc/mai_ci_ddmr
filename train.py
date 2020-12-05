@@ -1,5 +1,8 @@
+from models.pretrained.main import main
+
+
 def train_main():
-    print('Training')
+    main()
 
 if __name__ == "__main__":
     # Process command-line args here (or maybe we prefer a config file)
