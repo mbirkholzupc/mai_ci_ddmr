@@ -1,6 +1,6 @@
 from models.pretrained.InceptionV4 import InceptionV4
-from keras.models import Model
-from keras.layers import Dense, Flatten
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Dense, Flatten
 
 
 class BinaryInceptionV4(InceptionV4):

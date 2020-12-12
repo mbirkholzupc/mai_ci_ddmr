@@ -1,10 +1,10 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-from keras.layers.convolutional import MaxPooling2D, Convolution2D, AveragePooling2D
-from keras.layers import Input, Activation
-from keras.layers.normalization import BatchNormalization
-from keras.layers.merge import concatenate
-from keras.models import Model
+#os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+from tensorflow.keras.layers import MaxPooling2D, Convolution2D, AveragePooling2D
+from tensorflow.keras.layers import Input, Activation
+from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras.layers import concatenate
+from tensorflow.keras.models import Model
 
 
 class InceptionV4:
@@ -16,8 +16,7 @@ class InceptionV4:
         model = Model(inputs, x, name='inception_v4')
         model.load_weights(os.path.join(os.path.dirname(os.path.realpath(__file__)),
             'weights', 'inception-v4_weights_tf_dim_ordering_tf_kernels_notop.h5'
-        ),
-            by_name=True)
+        ))
         return model
 
     def _base_model(self, input):
