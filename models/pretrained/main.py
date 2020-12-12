@@ -3,7 +3,7 @@ from loader_splitter.Splitter import Splitter
 from models.pretrained.BinaryInceptionV4 import BinaryInceptionV4
 from os.path import dirname, realpath, join
 import numpy as np
-
+import gc
 
 def main():
     loader = Loader(join(dirname(realpath(__file__)), "../../data/resized"), ["benign", "malignant"])
@@ -12,10 +12,11 @@ def main():
     loss_per_fold = []
     batch_size = 128
     for fold, split in enumerate(Splitter().split(data)):
+        gc.collect()
         X_train, y_train = split.train_set.X, split.train_set.y
         X_test, y_test = split.test_set.X, split.test_set.y
         model = BinaryInceptionV4().get_model()
-        model.compile(optimizer='adam', loss='binary_crossentropy')
+        model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
         model.fit(X_train, y_train, epochs=3, batch_size=batch_size)
         scores = model.evaluate(X_test, y_test, verbose=0, batch_size=batch_size)
         print(
