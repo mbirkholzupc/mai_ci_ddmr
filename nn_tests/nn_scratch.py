@@ -35,9 +35,14 @@ warnings.filterwarnings("ignore")
 import time
 # In[2]:
 
-path = str(input("\n\nEnter only 'data' folder path, where train/benign or test/malignant etc are allocate - Example: ../input/data: "))
+# Enter path (use dot if train and test are in the same folder)
+path = "."
+# Enter number of images to train (0 will take the whole training set)
+subset = 0
 
-subset = eval(input("\nEnter number of images to train (0 will take the whole training set): "))
+# Enter of epochs:
+epochs = 10
+
 ti = time.time()
 folder_benign_train = path + '/train/benign'
 folder_malignant_train = path + '/train/malignant'
@@ -140,9 +145,6 @@ learning_rate_reduction = ReduceLROnPlateau(monitor='val_accuracy',
 
 
 # In[10]:
-
-
-epochs = eval(input("\nEnter of epochs: "))
 
 input_shape = (224,224,3)
 lr = 1e-5
