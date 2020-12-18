@@ -25,8 +25,9 @@ class Loader:
         labels = []
         for i, category in enumerate(self._categories):
             category_path = path.join(self._base_folder, category)
-            for j, filename in enumerate(listdir(category_path)):
-                image_index = i * len(self._categories) + j
+            filenames = listdir(category_path)
+            for j, filename in enumerate(filenames):
+                image_index = i * len(filenames) + j
                 image_path = path.join(category_path, filename)
                 samples[image_index] = np.divide(np.array(imread(image_path), dtype=np.float16), 255.0)
                 labels.append(self._categories_encoded[i])
