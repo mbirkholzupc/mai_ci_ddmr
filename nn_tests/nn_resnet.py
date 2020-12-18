@@ -110,33 +110,6 @@ else:
 
 print('\nTime loading the whole set of images: '+ str(time.time()-ti))
 
-def build(input_shape= (224,224,3), lr = 1e-3, num_classes= 2,
-          init= 'normal', activ= 'relu', optim= 'adam'):
-    model = Sequential()
-    model.add(Conv2D(64, kernel_size=(3, 3),padding = 'Same',input_shape=input_shape,
-                     activation= activ, kernel_initializer='glorot_uniform'))
-    model.add(MaxPool2D(pool_size = (2, 2)))
-    model.add(Dropout(0.25))
-
-    model.add(Conv2D(64, kernel_size=(3, 3),padding = 'Same', 
-                     activation =activ, kernel_initializer = 'glorot_uniform'))
-    model.add(MaxPool2D(pool_size = (2, 2)))
-    model.add(Dropout(0.25))
-
-    model.add(Flatten())
-    model.add(Dense(128, activation='relu', kernel_initializer=init))
-    model.add(Dense(num_classes, activation='softmax'))
-    model.summary()
-
-    if optim == 'rmsprop':
-        optimizer = RMSprop(lr=lr)
-
-    else:
-        optimizer = Adam(lr=lr)
-
-    model.compile(optimizer = optimizer ,loss = "binary_crossentropy", metrics=["accuracy"])
-    return model
-
 # Set a learning rate annealer
 learning_rate_reduction = ReduceLROnPlateau(monitor='val_accuracy', 
                                             patience=5, 
@@ -145,39 +118,25 @@ learning_rate_reduction = ReduceLROnPlateau(monitor='val_accuracy',
                                             min_lr=1e-7)
 
 
-# In[10]:
-
 input_shape = (224,224,3)
 lr = 1e-5
-init = 'normal'
-activ = 'relu'
-optim = 'adam'
 batch_size = 64
 
-ti = time.time()
-model = build(lr=lr, init= init, activ= activ, optim=optim, input_shape= input_shape)
+model = ResNet50(include_top=True,
+                 weights= None,
+                 input_tensor=None,
+                 input_shape=input_shape,
+                 pooling='avg',
+                 classes=2)
+
+model.compile(optimizer = Adam(lr) ,
+              loss = "binary_crossentropy", 
+              metrics=["accuracy"])
 
 history = model.fit(X_train, y_train, validation_split=0.2,
-                    epochs= epochs, batch_size= batch_size, verbose=0, 
+                    epochs= epochs, batch_size= batch_size, verbose=2, 
                     callbacks=[learning_rate_reduction]
                    )
-                   
-# list all data in history
-print(history.history.keys())
-# summarize history for accuracy
-print("print accuracy for last epochs:")
-print(history.history['accuracy'][-1])
-print(history.history['val_accuracy'][-1])
-# summarize history for loss
-print("print loss for last epochs:")
-print(history.history['loss'][-1])
-print(history.history['val_loss'][-1])
-
-print('\nTime time of model training: '+ str(time.time()-ti))
-
-# In[ ]:
-
-
 # save model
 # serialize model to JSON
 model_json = model.to_json()
@@ -186,7 +145,7 @@ with open("model.json", "w") as json_file:
     json_file.write(model_json)
     
 # serialize weights to HDF5
-model.save_weights("model.h5")
+model.save_weights("model_resnet.h5")
 print("Saved model to disk")
 
 # Clear memory, because of memory overload
