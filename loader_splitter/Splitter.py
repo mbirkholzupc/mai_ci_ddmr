@@ -9,7 +9,7 @@ class Splitter:
     Allows to split the images in training and test sets
     """
     def __init__(self):
-        self._skf = StratifiedKFold(3, shuffle=True)
+        self._skf = StratifiedKFold(10, shuffle=True)
 
     def split(self, supervised_data: SupervisedData):
         """
