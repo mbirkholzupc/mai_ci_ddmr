@@ -2,27 +2,16 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from datetime import datetime
 
-from loader_splitter.Loader import Loader
-from loader_splitter.Splitter import Splitter
 from models.pretrained.BinaryInceptionV4 import BinaryInceptionV4
-from os.path import dirname, realpath, join
 import numpy as np
 import gc
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 def main():
-    loader = Loader(join(dirname(realpath(__file__)), "../../data/resized"), ["benign", "malignant"])
-    data = loader.load()
     acc_per_fold = []
     loss_per_fold = []
     batch_size = 128
-    datagen = ImageDataGenerator(featurewise_center=True,
-                                 featurewise_std_normalization=True,
-                                 rotation_range=20,
-                                 width_shift_range=0.2,
-                                 height_shift_range=0.2,
-                                 horizontal_flip=True)
     train_datagen = ImageDataGenerator(
         rescale=1. / 255,
         shear_range=0.2,
