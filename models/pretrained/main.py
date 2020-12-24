@@ -22,8 +22,8 @@ def main():
         X_train, y_train = split.train_set.X, split.train_set.y
         X_test, y_test = split.test_set.X, split.test_set.y
         model = BinaryInceptionV4().get_model()
-        model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'], validation_data=(X_test, y_test), callbacks=[es, tensorboard_callback])
-        model.fit(X_train, y_train, epochs=50, batch_size=batch_size)
+        model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+        model.fit(X_train, y_train, epochs=50, batch_size=batch_size, validation_data=(X_test, y_test), callbacks=[es, tensorboard_callback])
         scores = model.evaluate(X_test, y_test, verbose=0, batch_size=batch_size)
         print(
             f'Score for fold {fold}: {model.metrics_names[0]} of {scores[0]}; {model.metrics_names[1]} of {scores[1] * 100}%')
