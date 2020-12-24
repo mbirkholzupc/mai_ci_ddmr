@@ -24,7 +24,7 @@ def main():
                                  validation_split=0.3,
                                  horizontal_flip=True)
     train_generator = datagen.flow_from_directory(
-        '../data/original',  # this is the target directory
+        os.path.join(os.path.dirname(os.path.realpath(__file__)), '../data/original'),  # this is the target directory
         target_size=(299, 299),  # all images will be resized
         batch_size=batch_size,
         class_mode='binary',
@@ -33,7 +33,7 @@ def main():
 
     # this is a similar generator, for validation data
     validation_generator = datagen.flow_from_directory(
-        '../data/original',
+        os.path.join(os.path.dirname(os.path.realpath(__file__)), '../data/original'),
         target_size=(299, 299),
         batch_size=batch_size,
         subset='validation',
