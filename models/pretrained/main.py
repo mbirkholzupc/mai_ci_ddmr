@@ -18,7 +18,7 @@ def main():
     batch_size = 128
     for fold, split in enumerate(Splitter().split(data)):
         gc.collect()
-        es = tf.keras.callbacks.EarlyStopping(baseline=0.6, patience=10, restore_best_weights=True)
+        es = tf.keras.callbacks.EarlyStopping(baseline=0.6, patience=10)
         log_dir = "logs/fit/" + datetime.now().strftime("%Y%m%d-%H%M%S")
         tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
         X_train, y_train = split.train_set.X, split.train_set.y
