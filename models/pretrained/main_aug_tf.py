@@ -52,7 +52,7 @@ def main():
                   callbacks=[tensorboard_callback]
                   )
 
-        scores = model.evaluate(validation_generator, verbose=0, steps_per_epoch=2000 // batch_size,
+        scores = model.evaluate(validation_generator, verbose=0,
                                 steps=800 // batch_size)
         print(
             f'Score for fold {i}: {model.metrics_names[0]} of {scores[0]}; {model.metrics_names[1]} of {scores[1] * 100}%')
