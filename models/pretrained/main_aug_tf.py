@@ -46,7 +46,7 @@ def main():
         model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
         model.fit(train_generator,
                   steps_per_epoch=2000 // batch_size,
-                  epochs=100,
+                  epochs=50,
                   validation_data=validation_generator,
                   validation_steps=800 // batch_size,
                   callbacks=[tensorboard_callback]
