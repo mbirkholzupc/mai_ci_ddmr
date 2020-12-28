@@ -13,18 +13,17 @@ def main():
     acc_per_fold = []
     loss_per_fold = []
     batch_size = 128
-    datagen = ImageDataGenerator(featurewise_center=True,
-                                 featurewise_std_normalization=True,
-                                 rotation_range=20,
-                                 width_shift_range=0.2,
-                                 height_shift_range=0.2,
+    datagen = ImageDataGenerator(rotation_range=20,
+                                 width_shift_range=0.1,
+                                 height_shift_range=0.1,
                                  rescale=1. / 255,
-                                 shear_range=0.2,
-                                 zoom_range=0.2,
+                                 zoom_range=0.1,
                                  validation_split=0.3,
+                                 vertical_flip=True,
+                                 brightness_range=(0.9, 1.1),
                                  horizontal_flip=True)
     train_generator = datagen.flow_from_directory(
-        os.path.join(os.path.dirname(os.path.realpath(__file__)), '../data/original'),  # this is the target directory
+        os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../data/original'),  # this is the target directory
         target_size=(299, 299),  # all images will be resized
         batch_size=batch_size,
         class_mode='binary',
@@ -33,22 +32,21 @@ def main():
 
     # this is a similar generator, for validation data
     validation_generator = datagen.flow_from_directory(
-        os.path.join(os.path.dirname(os.path.realpath(__file__)), '../data/original'),
+        os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../data/original'),
         target_size=(299, 299),
         batch_size=batch_size,
         subset='validation',
         class_mode='binary'
     )
-    for i in range(3):
+    for i in range(10):
         gc.collect()
-        # es = tf.keras.callbacks.EarlyStopping(baseline=0.6, patience=10, restore_best_weights=True)
         log_dir = "logs/fit/" + datetime.now().strftime("%Y%m%d-%H%M%S")
         tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
         model = BinaryInceptionV4().get_model()
         model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
         model.fit(train_generator,
                   steps_per_epoch=2000 // batch_size,
-                  epochs=10,
+                  epochs=100,
                   validation_data=validation_generator,
                   validation_steps=800 // batch_size,
                   callbacks=[tensorboard_callback]

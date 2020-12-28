@@ -1,5 +1,4 @@
 import os
-#os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 from tensorflow.keras.layers import MaxPooling2D, Convolution2D, AveragePooling2D
 from tensorflow.keras.layers import Input, Activation
 from tensorflow.keras.layers import BatchNormalization
