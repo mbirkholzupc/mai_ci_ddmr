@@ -5,6 +5,7 @@ from datetime import datetime
 
 from models.pretrained.BinaryInceptionV4 import BinaryInceptionV4
 import gc
+import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
