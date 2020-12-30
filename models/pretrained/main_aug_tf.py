@@ -1,5 +1,9 @@
 import os
 
+from tensorflow.python.keras.layers import Flatten, Dense
+from tensorflow.python.keras.models import Sequential
+from tensorflow.python.layers.normalization import BatchNormalization
+
 from loader_splitter.FoldLoader import FoldLoader
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -25,7 +29,16 @@ def main():
         gc.collect()
         log_dir = "logs/fit/" + datetime.now().strftime("%Y%m%d-%H%M%S")
         tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-        model = BinaryInceptionV4().get_model()
+        model = Sequential()
+        pretrained_model = BinaryInceptionV4().get_model()
+        for layer in model.layers:
+            if (isinstance(layer, BatchNormalization)):
+                layer.trainable = False
+        model.add(pretrained_model)
+        model.add(Flatten())
+        # model.add(Dropout(0.7))
+        # model.add(BatchNormalization())
+        model.add(Dense(1, activation='sigmoid'))
         model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
         model.fit(train_generator,
                   #steps_per_epoch=2109 // batch_size,
