@@ -10,7 +10,7 @@ class InceptionV4:
     _channel_axis = -1
 
     def get_model(self):
-        inputs = Input((224, 224, 3))
+        inputs = Input((299, 299, 3))
         x = self._base_model(inputs)
         model = Model(inputs, x, name='inception_v4')
         model.load_weights(os.path.join(os.path.dirname(os.path.realpath(__file__)),
