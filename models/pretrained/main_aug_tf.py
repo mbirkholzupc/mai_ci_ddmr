@@ -19,7 +19,6 @@ def main():
     fold_loader = FoldLoader({"rotation_range": 20,
                               "width_shift_range": 0.1,
                               "height_shift_range": 0.1,
-                              #"rescale": 1. / 255,
                               "zoom_range": 0.1,
                               "vertical_flip": True,
                               "brightness_range": (0.9, 1.1),
