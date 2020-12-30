@@ -32,7 +32,7 @@ def main():
         model = BinaryInceptionV4().get_model()
         model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
         model.fit(train_generator,
-                  steps_per_epoch=2180 // batch_size,
+                  steps_per_epoch=2180 * 3 // batch_size,
                   epochs=50,
                   validation_data=validation_generator,
                   validation_steps=528 // batch_size,
