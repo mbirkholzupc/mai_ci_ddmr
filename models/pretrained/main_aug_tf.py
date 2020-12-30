@@ -1,5 +1,7 @@
 import os
 
+from loader_splitter.FoldLoader import FoldLoader
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from datetime import datetime
 
@@ -7,39 +9,23 @@ from models.pretrained.BinaryInceptionV4 import BinaryInceptionV4
 import gc
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
 def main():
     acc_per_fold = []
     loss_per_fold = []
     batch_size = 128
-    datagen = ImageDataGenerator(rotation_range=20,
-                                 width_shift_range=0.1,
-                                 height_shift_range=0.1,
-                                 rescale=1. / 255,
-                                 zoom_range=0.1,
-                                 validation_split=0.3,
-                                 vertical_flip=True,
-                                 brightness_range=(0.9, 1.1),
-                                 horizontal_flip=True)
-    train_generator = datagen.flow_from_directory(
-        os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../data/original'),  # this is the target directory
-        target_size=(299, 299),  # all images will be resized
-        batch_size=batch_size,
-        class_mode='binary',
-        subset='training'
-    )  # since we use binary_crossentropy loss, we need binary labels
-
-    # this is a similar generator, for validation data
-    validation_generator = datagen.flow_from_directory(
-        os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../data/original'),
-        target_size=(299, 299),
-        batch_size=batch_size,
-        subset='validation',
-        class_mode='binary'
-    )
-    for i in range(10):
+    target_size = (299, 299)
+    fold_loader = FoldLoader({"rotation_range": 20,
+                              "width_shift_range": 0.1,
+                              "height_shift_range": 0.1,
+                              "rescale": 1. / 255,
+                              "zoom_range": 0.1,
+                              "validation_split": 0.3,
+                              "vertical_flip": True,
+                              "brightness_range": (0.9, 1.1),
+                              "horizontal_flip": True})
+    for train_generator, validation_generator in fold_loader.split(target_size, batch_size):
         gc.collect()
         log_dir = "logs/fit/" + datetime.now().strftime("%Y%m%d-%H%M%S")
         tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)

@@ -21,14 +21,15 @@ class Loader:
         Loads the images with their labels
         """
         n_images = sum([len(listdir(path.join(self._base_folder, category))) for category in self._categories])
-        samples = np.empty((n_images, 299, 299, 3), np.float16)
+        samples = np.empty((n_images, 224, 224, 3), dtype=np.uint8)
         labels = []
+        image_index = 0
         for i, category in enumerate(self._categories):
             category_path = path.join(self._base_folder, category)
             filenames = listdir(category_path)
             for j, filename in enumerate(filenames):
-                image_index = i * len(filenames) + j
                 image_path = path.join(category_path, filename)
-                samples[image_index] = np.divide(np.array(imread(image_path), dtype=np.float16), 255.0)
+                samples[image_index] = imread(image_path).astype(np.uint8)
                 labels.append(self._categories_encoded[i])
+                image_index += 1
         return SupervisedData(samples, np.array(labels))
