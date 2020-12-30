@@ -25,7 +25,7 @@ def main():
                               "vertical_flip": True,
                               "brightness_range": (0.9, 1.1),
                               "horizontal_flip": True})
-    for train_generator, validation_generator in fold_loader.split(target_size, batch_size):
+    for i, (train_generator, validation_generator) in enumerate(fold_loader.split(target_size, batch_size)):
         gc.collect()
         log_dir = "logs/fit/" + datetime.now().strftime("%Y%m%d-%H%M%S")
         tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
