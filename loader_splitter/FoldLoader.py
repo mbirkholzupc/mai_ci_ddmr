@@ -5,7 +5,7 @@ from os.path import dirname, realpath, join
 
 class FoldLoader:
 
-    def __init__(self, image_data_generator_args):
+    def __init__(self, image_data_generator_args={}):
         self._train_generator = ImageDataGenerator(**image_data_generator_args)
         self._validation_generator = ImageDataGenerator()
 
