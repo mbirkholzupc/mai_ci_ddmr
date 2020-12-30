@@ -7,7 +7,7 @@ class FoldLoader:
     _default_generator = {"rescale": 1. / 255}
 
     def __init__(self, image_data_generator_args={}):
-        self._train_generator = ImageDataGenerator({**image_data_generator_args, **self._default_generator})
+        self._train_generator = ImageDataGenerator(**{**image_data_generator_args, **self._default_generator})
         self._validation_generator = ImageDataGenerator(**self._default_generator)
 
     def split(self, target_size, batch_size):
