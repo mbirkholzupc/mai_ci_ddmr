@@ -16,13 +16,11 @@ def main():
     loss_per_fold = []
     batch_size = 128
     target_size = (299, 299)
-    fold_loader = FoldLoader({"rotation_range": 20,
-                              "width_shift_range": 0.1,
-                              "height_shift_range": 0.1,
-                              "zoom_range": 0.1,
-                              "vertical_flip": True,
-                              "brightness_range": (0.9, 1.1),
-                              "horizontal_flip": True})
+    fold_loader = FoldLoader({"shear_range":0.2,
+        "zoom_range":0.2,
+        "rotation_range":35,
+        "horizontal_flip":0.7})
+
     for i, (train_generator, validation_generator) in enumerate(fold_loader.split(target_size, batch_size)):
         gc.collect()
         log_dir = "logs/fit/" + datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -30,7 +28,7 @@ def main():
         model = BinaryInceptionV4().get_model()
         model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
         model.fit(train_generator,
-                  steps_per_epoch=2109 // batch_size,
+                  #steps_per_epoch=2109 // batch_size,
                   epochs=50,
                   validation_data=validation_generator,
                   validation_steps=527 // batch_size,
