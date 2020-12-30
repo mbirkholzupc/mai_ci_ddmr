@@ -24,15 +24,12 @@ def main():
         model = BinaryInceptionV4().get_model()
         model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
         model.fit(train_generator,
-                  steps_per_epoch=2109 // batch_size,
                   epochs=50,
                   validation_data=validation_generator,
-                  validation_steps=527 // batch_size,
                   callbacks=[tensorboard_callback]
                   )
 
-        scores = model.evaluate(validation_generator, verbose=0,
-                                steps=527 // batch_size)
+        scores = model.evaluate(validation_generator, verbose=0)
         print(
             f'Score for fold {i}: {model.metrics_names[0]} of {scores[0]}; {model.metrics_names[1]} of {scores[1] * 100}%')
         acc_per_fold.append(scores[1] * 100)
