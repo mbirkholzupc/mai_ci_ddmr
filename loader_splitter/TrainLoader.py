@@ -9,4 +9,4 @@ class TrainLoader(Loader):
 
     def __init__(self):
         categories = ["benign", "malignant"]
-        super().__init__(join(dirname(realpath(__file__)), "./data/train/all"), categories)
+        super().__init__(join(dirname(realpath(__file__)), "../data/train/all"), categories)

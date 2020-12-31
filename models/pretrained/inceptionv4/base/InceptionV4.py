@@ -14,8 +14,8 @@ class InceptionV4:
         x = self._base_model(inputs)
         model = Model(inputs, x, name='inception_v4')
         model.load_weights(os.path.join(os.path.dirname(os.path.realpath(__file__)),
-            'weights', 'inception-v4_weights_tf_dim_ordering_tf_kernels_notop.h5'
-        ))
+                                        '../weights', 'inception-v4_weights_tf_dim_ordering_tf_kernels_notop.h5'
+                                        ))
         return model
 
     def _base_model(self, input):

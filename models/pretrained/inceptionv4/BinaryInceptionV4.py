@@ -1,4 +1,4 @@
-from models.pretrained.InceptionV4 import InceptionV4
+from models.pretrained.inceptionv4.base.InceptionV4 import InceptionV4
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, Flatten
 

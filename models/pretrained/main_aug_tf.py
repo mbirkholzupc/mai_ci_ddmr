@@ -5,7 +5,7 @@ from loader_splitter.FoldLoader import FoldLoader
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from datetime import datetime
 
-from models.pretrained.BinaryInceptionV4 import BinaryInceptionV4
+from models.pretrained import BinaryInceptionV4
 import gc
 import numpy as np
 import tensorflow as tf
