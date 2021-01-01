@@ -136,7 +136,7 @@ class ModelRunner():
             del model_compile_params["dropout"]
 
         model = model_builder(extra_intermediate_layers)
-        es = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=5, verbose=1,
+        es = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10, verbose=1,
                                               restore_best_weights=True)
         learning_rate_reduction = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss',
                                                                        patience=5,
