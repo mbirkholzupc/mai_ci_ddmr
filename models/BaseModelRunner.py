@@ -12,10 +12,10 @@ class BaseModelRunner(ModelRunner):
     @staticmethod
     def _get_model_compile_params_model_builders(model_builder):
         params = [
-            {"dropout": .3, "optimizer": Adam(.001)},
+            {"dropout": .7, "optimizer": Adam(.00001)},
+            {"dense": 128, "optimizer": Adam()},
             {"optimizer": SGD(.005)},
             {"dense": 128, "optimizer": RMSprop(.0001)},
-            {"dense": 128, "dropout": .3, "optimizer": Adam(.001)},
             {"dense": 128, "dropout": .1, "optimizer": Adam(.00001)}
         ]
         model_builders = [model_builder] * len(params)
