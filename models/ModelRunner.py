@@ -147,7 +147,7 @@ class ModelRunner():
                          **{"loss": "binary_crossentropy", "metrics": ["accuracy",
                                                                        tf.keras.metrics.Precision(name="precision"),
                                                                        tf.keras.metrics.Recall(name="recall")]}})
-        base_fit_params = {"epochs": 50, "validation_data": (validation_data.X, validation_data.y),
+        base_fit_params = {"epochs": 1, "validation_data": (validation_data.X, validation_data.y),
                            "callbacks": [es, learning_rate_reduction]}
 
         if type(train_data) is SupervisedData:
@@ -157,9 +157,9 @@ class ModelRunner():
 
         history = model.fit(**{**base_fit_params, **extra_fit_params})
         scores = model.evaluate(x=validation_data.X, y=validation_data.y, verbose=0)
-        f1_score = 2 * scores[1] * scores[2] / (scores[1] + scores[2])
-        return model, {"f1_score": f1_score, "accuracy": scores[0],
-                "precision": scores[1], "recall": scores[2],
+        f1_score = 2 * scores[2] * scores[3] / (scores[2] + scores[3])
+        return model, {"f1_score": f1_score, "accuracy": scores[1],
+                "precision": scores[2], "recall": scores[3],
                 "epochs": len(history.history['loss'])}, history
 
     @staticmethod
