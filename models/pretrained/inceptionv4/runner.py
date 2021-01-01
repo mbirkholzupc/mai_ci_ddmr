@@ -1,9 +1,9 @@
-from models.AugmentedModelRunner import AugmentedModelRunner, BaseModelRunner
+from models.BestAugmentedModelRunner import AugmentedModelRunner, BaseModelRunner
 from models.pretrained.inceptionv4.BinaryInceptionV4 import BinaryInceptionV4
 
 
-def model_builder():
-    return BinaryInceptionV4().get_model()
+def model_builder(intermediate_layers):
+    return BinaryInceptionV4().get_model(intermediate_layers)
 
 
 def main(augmented=False):

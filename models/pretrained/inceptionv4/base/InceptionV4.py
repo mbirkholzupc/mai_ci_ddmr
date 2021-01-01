@@ -9,7 +9,7 @@ from tensorflow.keras.models import Model
 class InceptionV4:
     _channel_axis = -1
 
-    def get_model(self):
+    def get_model(self, *argv):
         inputs = Input((299, 299, 3))
         x = self._base_model(inputs)
         model = Model(inputs, x, name='inception_v4')
