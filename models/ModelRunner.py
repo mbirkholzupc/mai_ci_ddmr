@@ -1,5 +1,4 @@
 import pandas as pd
-import os
 import numpy as np
 from sklearn.metrics import confusion_matrix
 import seaborn as sn
@@ -11,9 +10,7 @@ from loader_splitter.TestLoader import TestLoader
 from loader_splitter.TrainLoader import TrainLoader
 from matplotlib import pyplot as plt
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import tensorflow as tf
-
 
 class ModelRunner():
     def __init__(self, model_builders, model_compile_params=None, image_sizes=(224, 224),
