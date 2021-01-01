@@ -8,3 +8,5 @@ out/*
 # vim temp files
 *.swp
 ~*
+logs/
+.idea/
