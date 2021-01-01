@@ -31,7 +31,7 @@ class ModelRunner(ABC):
     def run(self):
         fold_loader = FoldLoader(self._augmentation)
         avg_scores_per_model = []
-        for model, model_builder in enumerate(self._model_builders()):
+        for model, model_builder in enumerate(self._model_builders):
             print(f">>> Model {model + 1}")
             scores_per_fold = []
             model_compile_params = {} if len(self._model_compile_params) <= model else \
@@ -66,7 +66,7 @@ class ModelRunner(ABC):
             print('------------------------------------------------------------------------')
             avg_scores_per_model.append(avg_score_per_fold)
 
-        best_model_i = np.argmin([score["f1_score"] for score in avg_scores_per_model])
+        best_model_i = np.argmax([score["f1_score"] for score in avg_scores_per_model])
         best_model_scores = avg_scores_per_model[best_model_i]
         print('===========================================================================')
         print(f'Best model is nº {best_model_i} with score:')
@@ -75,9 +75,9 @@ class ModelRunner(ABC):
         print("Doing final training and test")
         best_model_compile_params = {} if best_model_i >= len(self._model_compile_params) else \
             self._model_compile_params[best_model_i]
-        best_model = self._model_builders(best_model_i)()
-        train_data = TrainLoader().load()
-        test_data = TestLoader().load()
+        best_model = self._model_builders[best_model_i]()
+        train_data = TrainLoader(self._image_size).load()
+        test_data = TestLoader(self._image_size).load()
         scores, history = self._compile_fit_model(
             best_model, best_model_compile_params, train_data, test_data)
         print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')

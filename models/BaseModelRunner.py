@@ -1,4 +1,4 @@
-from keras.optimizers import Adam, SGD, rmsprop
+from tensorflow.keras.optimizers import Adam, SGD, RMSprop
 
 from models.ModelRunner import ModelRunner
 
@@ -14,7 +14,7 @@ class BaseModelRunner(ModelRunner):
         params = [
             {"dropout": .3, "optimizer": Adam(.001)},
             {"optimizer": SGD(.005)},
-            {"dense": 128, "optimizer": rmsprop(.0001)},
+            {"dense": 128, "optimizer": RMSprop(.0001)},
             {"dense": 128, "dropout": .3, "optimizer": Adam(.001)},
             {"dense": 128, "dropout": .1, "optimizer": Adam(.00001)}
         ]

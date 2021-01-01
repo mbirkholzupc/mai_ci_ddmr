@@ -7,8 +7,10 @@ from loader_splitter.Loader import Loader
 
 class FoldLoader:
     def __init__(self, image_data_generator_args=None):
-        self._train_generator = ImageDataGenerator(**image_data_generator_args) if image_data_generator_args \
-                                                                                   is not None else None
+        if image_data_generator_args is None:
+            image_data_generator_args = {}
+        self._train_generator = ImageDataGenerator(**image_data_generator_args) if bool(image_data_generator_args) \
+            else None
 
     def split(self, target_size, batch_size):
         data_folder = join(dirname(realpath(__file__)), "../data")
@@ -16,7 +18,7 @@ class FoldLoader:
         fold_folders = listdir(join(data_folder, "train/folds"))
         for fold_folder in fold_folders:
             train_folder = folder.format(set="train", fold=fold_folder)
-            if self._train_generator is None:
+            if not bool(self._train_generator):
                 train_loader = Loader(train_folder, ["benign", "malignant"], target_size)
                 train_data = train_loader.load()
             else:
@@ -26,6 +28,7 @@ class FoldLoader:
                     batch_size=batch_size,
                     class_mode='binary'
                 )
-            test_loader = Loader(folder.format(set="validation", fold=fold_folder), ["benign", "malignant"], target_size)
+            test_loader = Loader(folder.format(set="validation", fold=fold_folder), ["benign", "malignant"],
+                                 target_size)
             test_data = test_loader.load()
             yield train_data, test_data
