@@ -6,10 +6,13 @@ from loader_splitter.Loader import Loader
 
 
 class FoldLoader:
+    default_data_generator_args = {"rescale": 1. / 255}
+
     def __init__(self, image_data_generator_args=None):
         if image_data_generator_args is None:
             image_data_generator_args = {}
-        self._train_generator = ImageDataGenerator(**image_data_generator_args) if bool(image_data_generator_args) \
+        self._train_generator = ImageDataGenerator(
+            **{**image_data_generator_args, **self.default_data_generator_args}) if bool(image_data_generator_args) \
             else None
 
     def split(self, target_size, batch_size):
