@@ -35,4 +35,4 @@ class Loader:
                                               anti_aliasing=True).astype(np.float16)
                 labels.append(self._categories_encoded[i])
                 image_index += 1
-        return SupervisedData(samples, np.array(labels))
+        return SupervisedData(samples, np.array(labels, dtype=np.float16))

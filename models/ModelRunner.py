@@ -145,7 +145,7 @@ class ModelRunner():
                                                                        tf.keras.metrics.Precision(name="precision"),
                                                                        tf.keras.metrics.Recall(name="recall")]}})
         base_fit_params = {"epochs": 50, "validation_data": (validation_data.X, validation_data.y),
-                           "callbacks": [es, learning_rate_reduction]}
+                           "callbacks": [es, learning_rate_reduction], "verbose": 2}
 
         if type(train_data) is SupervisedData:
             extra_fit_params = {"x": train_data.X, "y": train_data.y}
