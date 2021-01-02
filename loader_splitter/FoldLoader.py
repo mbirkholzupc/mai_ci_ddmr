@@ -3,10 +3,10 @@ from os import listdir
 from os.path import dirname, realpath, join
 
 from loader_splitter.Loader import Loader
-
+import numpy as np
 
 class FoldLoader:
-    default_data_generator_args = {"rescale": 1. / 255}
+    default_data_generator_args = {"rescale": 1. / 255, "dtype": np.float16}
 
     def __init__(self, image_data_generator_args=None):
         if image_data_generator_args is None:
