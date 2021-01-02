@@ -29,7 +29,8 @@ class FoldLoader:
                     train_folder,
                     target_size=target_size,
                     batch_size=batch_size,
-                    class_mode='binary'
+                    class_mode='binary',
+                    seed=43
                 )
             test_loader = Loader(folder.format(set="validation", fold=fold_folder), ["benign", "malignant"],
                                  target_size)

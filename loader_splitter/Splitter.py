@@ -11,7 +11,7 @@ class Splitter:
     """
 
     def __init__(self):
-        self._skf = StratifiedKFold(5, shuffle=True)
+        self._skf = StratifiedKFold(5, shuffle=True, random_state=43)
 
     def split(self, supervised_data: SupervisedData):
         """
