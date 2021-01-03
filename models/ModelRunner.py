@@ -154,7 +154,7 @@ class ModelRunner():
 
         history = model.fit(**{**base_fit_params, **extra_fit_params})
         scores = model.evaluate(x=validation_data.X, y=validation_data.y, verbose=0)
-        f1_score = 2 * scores[2] * scores[3] / (scores[2] + scores[3])
+        f1_score = 0 if ((scores[2]+scores[3]) == 0) else (2 * scores[2] * scores[3] / (scores[2] + scores[3]))
         return model, {"f1_score": f1_score, "accuracy": scores[1],
                 "precision": scores[2], "recall": scores[3],
                 "epochs": len(history.history['loss'])}, history
