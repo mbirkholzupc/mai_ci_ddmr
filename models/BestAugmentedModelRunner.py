@@ -9,9 +9,9 @@ class AugmentedModelRunner(BaseModelRunner):
     @staticmethod
     def _get_augmentation():
         return {
-            "horizontal_flip": True,
             "zoom_range": .2,
-            "rotation_range": 90,
+            "rotation_range": 180,
+            "shear_range": 20,
         }
 '''
         return {
