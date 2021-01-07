@@ -12,7 +12,15 @@ def model_builder(intermediate_layers):
         ],
         name="ResNet50"
     )
-    model.add(Resnet50.ResNet50(include_top=False, pooling='avg'))
+
+    resnet = Resnet50.ResNet50(include_top=False, pooling='avg')
+
+    # Freeze resnet layers
+    for layer in resnet.layers:
+        layer.trainable = False
+
+    model.add(resnet)
+
     for layer in intermediate_layers:
         model.add(layer)
     model.add(Dense(1, activation='sigmoid'))
