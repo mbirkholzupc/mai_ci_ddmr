@@ -1,8 +1,11 @@
+from os.path import join, dirname, realpath
+
 import pandas as pd
 import numpy as np
 from sklearn.metrics import confusion_matrix
 import seaborn as sn
 from tensorflow.keras.layers import Dense, Dropout
+from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 
 from loader_splitter.FoldLoader import FoldLoader
 from loader_splitter.SupervisedData import SupervisedData
@@ -11,6 +14,7 @@ from loader_splitter.TrainLoader import TrainLoader
 from matplotlib import pyplot as plt
 
 import tensorflow as tf
+
 
 class ModelRunner():
     def __init__(self, model_builders, model_compile_params=None, image_sizes=(224, 224),
@@ -36,7 +40,8 @@ class ModelRunner():
                 self._model_compile_params[model]
             for fold, (train_data, validation_data) in \
                     enumerate(fold_loader.split(image_size, self._batch_size)):
-                _, scores, _ = self._compile_fit_model(model_builder, dict(model_compile_params), train_data, validation_data)
+                _, scores, _ = self._compile_fit_model(model_builder, dict(model_compile_params), train_data,
+                                                       validation_data)
                 scores_per_fold.append(scores)
 
             accum_f1_score = 0
@@ -74,7 +79,19 @@ class ModelRunner():
             self._model_compile_params[best_model_i]
 
         best_model_builder = self._model_builders[best_model_i]
-        train_data = TrainLoader(self._image_sizes[best_model_i]).load()
+        if bool(self._augmentation):
+            train_data_generator = ImageDataGenerator(
+                **{**self._augmentation, **{"rescale": 1. / 255, "dtype": np.float16}}
+            )
+            train_data = train_data_generator.flow_from_directory(
+                join(dirname(realpath(__file__)), "../data/train/all"),
+                target_size=self._image_sizes[best_model_i],
+                batch_size=self._batch_size,
+                class_mode='binary',
+                seed=43
+            )
+        else:
+            train_data = TrainLoader(self._image_sizes[best_model_i]).load()
         test_data = TestLoader(self._image_sizes[best_model_i]).load()
         best_model, scores, history = self._compile_fit_model(
             best_model_builder, dict(best_model_compile_params), train_data, test_data)
@@ -156,8 +173,8 @@ class ModelRunner():
         scores = model.evaluate(x=validation_data.X, y=validation_data.y, verbose=0)
         f1_score = 2 * scores[2] * scores[3] / (scores[2] + scores[3])
         return model, {"f1_score": f1_score, "accuracy": scores[1],
-                "precision": scores[2], "recall": scores[3],
-                "epochs": len(history.history['loss'])}, history
+                       "precision": scores[2], "recall": scores[3],
+                       "epochs": len(history.history['loss'])}, history
 
     @staticmethod
     def _report_scores(scores):
