@@ -16,9 +16,8 @@ def model_builder(intermediate_layers):
     resnet = Resnet50.ResNet50(include_top=False)
 
     # Freeze resnet layers
-    # See https://radiant-brushlands-42789.herokuapp.com/towardsdatascience.com/deep-learning-using-transfer-learning-python-code-for-resnet50-8acdfb3a2d38
     for layer in resnet.layers:
-        layer.trainable = layer.name in ['res5c_branch2b', 'res5c_branch2c', 'activation_97']
+        layer.trainable = False
 
     model.add(resnet)
     model.add(Flatten())
