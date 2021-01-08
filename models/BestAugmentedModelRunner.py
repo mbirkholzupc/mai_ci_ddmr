@@ -10,8 +10,8 @@ class AugmentedModelRunner(BaseModelRunner):
     def _get_augmentation():
         return {
             "zoom_range": .2,
-            "rotation_range": 15,
-            "brightness_range": (.9, 1.1),
+            "horizontal_flip": True,
+            "vertical_flip": True,
         }
 '''
         return {
