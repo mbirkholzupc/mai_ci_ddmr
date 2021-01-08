@@ -20,6 +20,9 @@ def model_builder(intermediate_layers=[]):
 
     model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors
 
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.5))
+
     for layer in intermediate_layers:
         model.add(layer)
 

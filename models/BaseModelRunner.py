@@ -17,8 +17,6 @@ class BaseModelRunner(ModelRunner):
             {"optimizer": SGD(.005)},
             {"dense": 128, "optimizer": RMSprop(.0001)},
             {"dense": 128, "dropout": .1, "optimizer": Adam(.00001)},
-            {"dense": 128, "dropout": .5, "optimizer": Adam(.0001)},
-            {"dense": 64, "dropout": .5, "optimizer": Adam(.0001)}
         ]
         '''
         params = [
