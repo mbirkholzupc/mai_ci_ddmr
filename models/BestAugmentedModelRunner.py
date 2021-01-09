@@ -10,15 +10,15 @@ class AugmentedModelRunner(BaseModelRunner):
     def _get_augmentation():
         return {
             "zoom_range": .2,
-            "rotation_range"=40,
-            "width_shift_range"=0.2,
-            "height_shift_range"=0.2,
-            "brightness_range"=(.9,1),
-            "horizontal_flip"=True,
-            "vertical_flip"=True,
-            "zoom_range"=0.2,
-            "shear_range"=0.2,
-            "fill_mode"='nearest',
+            "rotation_range":40,
+            "width_shift_range":0.2,
+            "height_shift_range":0.2,
+            "brightness_range":(.9,1),
+            "horizontal_flip":True,
+            "vertical_flip":True,
+            "zoom_range":0.2,
+            "shear_range":0.2,
+            "fill_mode":'nearest',
         }
 '''
         return {
