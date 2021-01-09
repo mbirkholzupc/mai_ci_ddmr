@@ -8,51 +8,34 @@ import numpy as np
 
 
 def main():
-    # TODO: Change to the best performing model (F1 score on test data)
     model_builder = inception_model_builder
-    # TODO: Change to the best performing model params
     best_model_compile_params = {
         "dense": 128,
-        "dropout": .1,
-        "optimizer": Adam(.00001)
+        "optimizer": RMSprop()
     }
-    # TODO: Change to (224, 244) if not using InceptionV4
-    image_size = (299, 299)
+    image_size = (224, 224)
     augmentations = [
         {
-            "shear_range": .2,
-            "zoom_range": .2,
-            "rotation_range": .1,
+            "brightness_range": (.9, 1),
+            "horizontal_flip": True
         },
         {
-            "horizontal_flip": True,
-            "shear_range": .2,
-            "zoom_range": .5,
-            "rotation_range": .2,
-            "brightness_range": (.9, 1.1),
-        },
-        {
+            "horizontal_flip": True, 
             "vertical_flip": True,
-            "shear_range": .2,
-            "zoom_range": .5,
-            "rotation_range": .1,
-            "brightness_range": (.9, 1.1),
+            "rotation_range": 0.1,
+            "shear_range":0.1
         },
         {
             "horizontal_flip": True,
             "vertical_flip": True,
-            "shear_range": .2,
-            "zoom_range": .2,
-            "rotation_range": .2,
+            "shear_range": 225,
+            "zoom_range": 30,
+            "rotation_range": .1,
+            "brightness_range": (.9, 1.1)
         },
         {
-            "horizontal_flip": True,
-            "vertical_flip": True,
-            "shear_range": .2,
-            "zoom_range": .2,
-            "rotation_range": .1,
-            "brightness_range": (.9, 1.1),
-        }
+            "zoom_range": .2
+        },
     ]
     f1_scores = []
     for augmentation in augmentations:
