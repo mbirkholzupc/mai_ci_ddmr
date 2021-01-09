@@ -8,7 +8,7 @@ import numpy as np
 
 
 def main():
-    model_builder = inception_model_builder
+    model_builder = scratch_model_builder
     best_model_compile_params = {
         "dense": 128,
         "optimizer": RMSprop()
