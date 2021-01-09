@@ -45,7 +45,7 @@ def main():
             "vertical_flip": True,
             "zoom_range": 0.2,
             "shear_range": 0.2,
-            "fill_mode":' nearest'
+            "fill_mode": "nearest"
         }
     ]
     f1_scores = []
