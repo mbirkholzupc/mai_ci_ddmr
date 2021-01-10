@@ -75,6 +75,7 @@ class ModelRunner(ValidationModelRunner):
         _ = sn.heatmap(df_cm, annot=True, cmap="YlGnBu", fmt="d")
         plt.savefig('cm.png')
         plt.show()
-        best_model.save('model.h5')
+        best_model.save('model_all.h5')
+        best_model.save_weights('model_weights.h5')
 
         return best_model, 0, scores, history
