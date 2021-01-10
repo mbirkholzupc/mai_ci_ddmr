@@ -1,6 +1,6 @@
 from tensorflow.keras.optimizers import RMSprop
 
-from models.core.validation.ModelRunner import ModelRunner
+from models.core.test.ModelRunner import ModelRunner
 from models.scratch.runner import model_builder as scratch_model_builder
 from models.pretrained.inceptionv4.runner import model_builder as inceptionv4_model_builder
 from models.pretrained.resnet50.runner import model_builder as resnet50_model_builder
