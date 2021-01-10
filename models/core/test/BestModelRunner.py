@@ -20,7 +20,7 @@ def main():
         "horizontal_flip": True
     }
 
-    model_runner = ModelRunner([model_builder], [best_model_compile_params], [image_size],
+    model_runner = ModelRunner(model_builder, best_model_compile_params, image_size,
                                augmentation=augmentation)
     model_runner.run()
 

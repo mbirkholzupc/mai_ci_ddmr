@@ -3,7 +3,7 @@ from os.path import join, dirname, realpath
 from sklearn.metrics import confusion_matrix
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 
-import models.core.validation.ModelRunner as ValidationModelRunner
+from models.core.validation.ModelRunner import ModelRunner as ValidationModelRunner
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
