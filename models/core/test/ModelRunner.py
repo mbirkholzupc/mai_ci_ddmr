@@ -73,7 +73,7 @@ class ModelRunner(ValidationModelRunner):
         fig = plt.figure(figsize=(4, 4))
         fig.suptitle("Confusion matrix")
         _ = sn.heatmap(df_cm, annot=True, cmap="YlGnBu", fmt="d")
-        plt.savefig('cm_.png')
+        plt.savefig('cm.png')
         plt.show()
         best_model.save('model.h5')
 
