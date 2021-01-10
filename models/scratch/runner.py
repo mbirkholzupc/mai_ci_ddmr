@@ -1,5 +1,5 @@
 from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, Activation, MaxPooling2D, Flatten
+from tensorflow.keras.layers import Dense, Conv2D, Activation, MaxPooling2D, Flatten, Dropout
 
 from models.BestAugmentedModelRunner import AugmentedModelRunner, BaseModelRunner
 
@@ -19,6 +19,9 @@ def model_builder(intermediate_layers=[]):
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
     model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors
+
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.5))
 
     for layer in intermediate_layers:
         model.add(layer)
