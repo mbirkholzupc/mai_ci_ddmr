@@ -1,4 +1,4 @@
-from models.BestAugmentedModelRunner import AugmentedModelRunner, BaseModelRunner
+from models.core.validation.BestAugmentedModelRunner import AugmentedModelRunner, BaseModelRunner
 from models.pretrained.inceptionv4.BinaryInceptionV4 import BinaryInceptionV4
 
 

@@ -1,24 +1,14 @@
-from os.path import join, dirname, realpath
-
-import pandas as pd
 import numpy as np
-from sklearn.metrics import confusion_matrix
-import seaborn as sn
+import tensorflow as tf
 from tensorflow.keras.layers import Dense, Dropout
-from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 
 from loader_splitter.FoldLoader import FoldLoader
 from loader_splitter.SupervisedData import SupervisedData
-from loader_splitter.TestLoader import TestLoader
-from loader_splitter.TrainLoader import TrainLoader
-from matplotlib import pyplot as plt
-
-import tensorflow as tf
 
 
 class ModelRunner():
     def __init__(self, model_builders, model_compile_params=None, image_sizes=(224, 224),
-                 batch_size=128, augmentation=None, show_extra_details=False, test=False):
+                 batch_size=128, augmentation=None):
         if augmentation is None:
             augmentation = {}
         if model_compile_params is None:
@@ -28,8 +18,6 @@ class ModelRunner():
         self._image_sizes = image_sizes
         self._batch_size = batch_size
         self._augmentation = augmentation
-        self._show_extra_details = show_extra_details
-        self._test = test
 
     def run(self):
         fold_loader = FoldLoader(self._augmentation)
@@ -75,73 +63,7 @@ class ModelRunner():
         print(f'Best model is nº {best_model_i} with score:')
         self._report_scores(best_model_scores)
         print('===========================================================================')
-        if self._test:
-            print("Doing final training and test")
-            best_model_compile_params = {} if best_model_i >= len(self._model_compile_params) else \
-                self._model_compile_params[best_model_i]
-
-            best_model_builder = self._model_builders[best_model_i]
-            if bool(self._augmentation):
-                train_data_generator = ImageDataGenerator(
-                    **{**self._augmentation, **{"rescale": 1. / 255, "dtype": np.float16}}
-                )
-                train_data = train_data_generator.flow_from_directory(
-                    join(dirname(realpath(__file__)), "../data/train/all"),
-                    target_size=self._image_sizes[best_model_i],
-                    batch_size=self._batch_size,
-                    class_mode='binary',
-                    seed=43
-                )
-            else:
-                train_data = TrainLoader(self._image_sizes[best_model_i]).load()
-            test_data = TestLoader(self._image_sizes[best_model_i]).load()
-            best_model, scores, history = self._compile_fit_model(
-                best_model_builder, dict(best_model_compile_params), train_data, test_data)
-            print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
-            print(f'Final model scores:')
-            self._report_scores(scores)
-            print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
-            if self._show_extra_details:
-                # F1 score
-                f1_score = 2 * np.array(history.history['precision']) * np.array(history.history['recall']) / \
-                           (np.array(history.history['precision']) + np.array(history.history['recall']))
-                val_f1_score = 2 * np.array(history.history['val_precision']) * np.array(history.history['val_recall']) / \
-                               (np.array(history.history['val_precision']) + np.array(history.history['val_recall']))
-                plt.plot(f1_score)
-                plt.plot(val_f1_score)
-                plt.title('model f1 score')
-                plt.ylabel('f1 score')
-                plt.xlabel('epoch')
-                plt.legend(['train', 'val'], loc='upper left')
-                plt.savefig(f'f1_score_{best_model_i}.png')
-                plt.show()
-                # Loss
-                plt.plot(history.history['loss'])
-                plt.plot(history.history['val_loss'])
-                plt.title('model loss')
-                plt.ylabel('loss')
-                plt.xlabel('epoch')
-                plt.legend(['train', 'val'], loc='upper left')
-                plt.savefig(f'loss_{best_model_i}.png')
-                plt.show()
-                # Confusion matrix
-                y_pred = best_model.predict(test_data.X).flatten()
-                y_pred[y_pred >= 0.5] = 1
-                y_pred[y_pred < 0.5] = 0
-                categories = ["benign", "malignant"]
-                df_cm = pd.DataFrame(confusion_matrix(test_data.y, y_pred),
-                                     index=categories, columns=categories)
-                df_cm.index.name = 'Actual'
-                df_cm.columns.name = 'Predicted'
-                fig = plt.figure(figsize=(4, 4))
-                fig.suptitle("Confusion matrix")
-                _ = sn.heatmap(df_cm, annot=True, cmap="YlGnBu", fmt="d")
-                plt.savefig(f'cm_{best_model_i}.png')
-                plt.show()
-            best_model.save(f'model_{best_model_i}.h5')
-            return best_model, best_model_i, scores, history
-        else:
-            return None, best_model_i, best_model_scores, None
+        return best_model_i, best_model_scores
 
     @staticmethod
     def _compile_fit_model(model_builder, model_compile_params, train_data, validation_data):

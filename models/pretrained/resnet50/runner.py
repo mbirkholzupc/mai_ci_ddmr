@@ -1,7 +1,7 @@
 from tensorflow.keras import Sequential, Input
 from tensorflow.keras.layers import Dense, Flatten
 
-from models.BestAugmentedModelRunner import AugmentedModelRunner, BaseModelRunner
+from models.core.validation.BestAugmentedModelRunner import AugmentedModelRunner, BaseModelRunner
 from tensorflow.keras.applications import resnet50 as Resnet50
 
 

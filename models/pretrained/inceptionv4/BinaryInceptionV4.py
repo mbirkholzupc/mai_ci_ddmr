@@ -8,8 +8,8 @@ class BinaryInceptionV4(InceptionV4):
         model = super().get_model()
 
         # Freeze the original layers weights
-        for layer in model.layers:
-            layer.trainable = False
+        for index in range(len(model.layers) - 22):
+            model.get_layer(index=index).trainable = False
 
         x = Flatten()(model.layers[-1].output)
         intermediate_layers = argv[0]

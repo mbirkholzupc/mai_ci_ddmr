@@ -1,8 +1,6 @@
-from tensorflow.keras.optimizers import Adam, SGD, RMSprop
+from tensorflow.keras.optimizers import RMSprop
 
-from models.ModelRunner import ModelRunner
-from models.pretrained.inceptionv4.runner import model_builder as inception_model_builder
-from models.pretrained.resnet50.runner import model_builder as resnet50_model_builder
+from models.core.validation.ModelRunner import ModelRunner
 from models.scratch.runner import model_builder as scratch_model_builder
 import numpy as np
 
@@ -52,7 +50,7 @@ def main():
     for augmentation in augmentations:
         model_runner = ModelRunner([model_builder], [best_model_compile_params], [image_size],
                                    augmentation=augmentation)
-        _, _, scores, _ = model_runner.run()
+        _, scores = model_runner.run()
         f1_scores.append(scores["f1_score"])
 
     best_model_i = np.argmax(f1_scores)

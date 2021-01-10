@@ -1,7 +1,7 @@
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Activation, MaxPooling2D, Flatten, Dropout
 
-from models.BestAugmentedModelRunner import AugmentedModelRunner, BaseModelRunner
+from models.core.validation.BestAugmentedModelRunner import AugmentedModelRunner, BaseModelRunner
 
 
 def model_builder(intermediate_layers=[]):
