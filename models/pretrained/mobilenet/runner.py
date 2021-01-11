@@ -4,6 +4,7 @@ from tensorflow.keras.layers import Dense, Flatten
 from models.core.validation.BestAugmentedModelRunner import AugmentedModelRunner, BaseModelRunner
 from tensorflow.keras.applications import MobileNetV2
 
+
 def model_builder(intermediate_layers):
     model = Sequential(
         [
@@ -20,7 +21,7 @@ def model_builder(intermediate_layers):
     fine_tune_at = 100
 
     for layer in mobilenet.layers[:fine_tune_at]:
-      layer.trainable =  False
+        layer.trainable = False
 
     print('Number of trainable variables = {}'.format(len(mobilenet.trainable_variables)))
     model.add(mobilenet)
