@@ -21,9 +21,13 @@ class FoldLoader:
         fold_folders = listdir(join(data_folder, "train/folds"))
         for fold_folder in fold_folders:
             train_folder = folder.format(set="train", fold=fold_folder)
+            test_folder= folder.format(set="validation", fold=fold_folder)
             if not bool(self._train_generator):
                 train_loader = Loader(train_folder, ["benign", "malignant"], target_size)
                 train_data = train_loader.load()
+                test_loader = Loader(test_folder, ["benign", "malignant"],
+                                 target_size)
+                test_data = test_loader.load()
             else:
                 train_data = self._train_generator.flow_from_directory(
                     train_folder,
@@ -32,7 +36,11 @@ class FoldLoader:
                     class_mode='binary',
                     seed=43
                 )
-            test_loader = Loader(folder.format(set="validation", fold=fold_folder), ["benign", "malignant"],
-                                 target_size)
-            test_data = test_loader.load()
+                test_data = self._train_generator.flow_from_directory(
+                    test_folder,
+                    target_size=target_size,
+                    batch_size=batch_size,
+                    class_mode='binary',
+                    seed=43
+                )
             yield train_data, test_data

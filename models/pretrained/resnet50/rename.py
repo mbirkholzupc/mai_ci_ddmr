@@ -2,24 +2,28 @@ from tensorflow.keras import Sequential, Input
 from tensorflow.keras.layers import Dense, Flatten
 
 from models.core.validation.BestAugmentedModelRunner import AugmentedModelRunner, BaseModelRunner
-from tensorflow.keras.applications import resnet50 as Resnet50
-
+from tensorflow.keras.applications import MobileNetV2
 
 def model_builder(intermediate_layers):
     model = Sequential(
         [
-            Input(shape=(224, 224, 3)),
+            Input(shape=(224, 224, 3))
         ],
-        name="ResNet50"
     )
 
-    resnet = Resnet50.ResNet50(include_top=False)
+    mobilenet = MobileNetV2(include_top=False, weights='imagenet', input_shape=(224, 224, 3))
+    mobilenet.trainable = True
 
-    # Freeze resnet layers
-    for layer in resnet.layers:
-        layer.trainable = False
+    print("Number of layers in the base model: ", len(mobilenet.layers))
 
-    model.add(resnet)
+    # Fine tune from this layer
+    fine_tune_at = 100
+
+    for layer in mobilenet.layers[:fine_tune_at]:
+      layer.trainable =  False
+
+    print('Number of trainable variables = {}'.format(len(mobilenet.trainable_variables)))
+    model.add(mobilenet)
     model.add(Flatten())
 
     for layer in intermediate_layers:
