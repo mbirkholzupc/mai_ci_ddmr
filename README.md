@@ -36,4 +36,4 @@ another without):
 * `train_inception_no_aug.py`: Model selection of the Inception V4 network with **no** augmentation.
 * `train_inception_with_aug.py`: Model selection of the Inception V4 network **with** augmentation.
 
-*See our [webpage](https://skin-moles.web.app/) for additional resource like the paper and android app.*
+*See our [webpage](https://skin-moles.web.app/) for additional resources like the paper and android app.*
