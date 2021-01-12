@@ -6,8 +6,8 @@
 ### Project structure
 
 * **data**
-  * test - all: all the original test data as in *Kaggle*. Used for final model testing
-  * train: all train (and validation data based off it)
+  * **test** - all: all the original test data as in *Kaggle*. Used for final model testing
+  * **train**: all train (and validation data based off it)
     * all: all the original train data as in *Kaggle*. Used for final model training.
     * folds: 5-fold Strafied data used for cross-validation of the different models.
       * fold0 ... fold4: Each of the 5 folds numbered from 0 to 4.
