@@ -3,7 +3,7 @@
 
 
 
-###Project structure
+### Project structure
 
 * **data**
   * test - all: all the original test data as in *Kaggle*. Used for final model testing
@@ -21,7 +21,7 @@
   * **pretrained**: Includes the pretrained models, InceptionV4 and Mobilenet.
   * **scratch**: Includes the from-scratch model.  
 
-###Scripts
+### Scripts
 
 The project contains several scripts in the root folder:
 
@@ -35,7 +35,5 @@ another without):
 * `train_mobilenet_with_aug.py`: Model selection of the MobileNet network **with** augmentation.
 * `train_inception_no_aug.py`: Model selection of the Inception V4 network with **no** augmentation.
 * `train_inception_with_aug.py`: Model selection of the Inception V4 network **with** augmentation.
-
-
 
 *See our [webpage](https://skin-moles.web.app/) for additional resource like the paper and android app.*
